@@ -43,6 +43,7 @@ private:
     void read_setting_file();
 
 public slots:    
+    void pushBtn_preview_click();
     void pushBtn_submit_click();
     void pushBtn_add_image_click();
     void pushBtn_add_code_click();

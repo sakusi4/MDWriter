@@ -14,6 +14,7 @@ SOURCES += \
     aboutdialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    previewdialog.cpp \
     refdialog.cpp \
     settingdialog.cpp \
     setupdialog.cpp
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     aboutdialog.h \
     mainwindow.h \
+    previewdialog.h \
     refdialog.h \
     settingdialog.h \
     setupdialog.h
@@ -28,6 +30,7 @@ HEADERS += \
 FORMS += \
     aboutdialog.ui \
     mainwindow.ui \
+    previewdialog.ui \
     refdialog.ui \
     settingdialog.ui \
     setupdialog.ui

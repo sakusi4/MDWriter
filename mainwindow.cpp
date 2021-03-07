@@ -4,6 +4,7 @@
 #include "refdialog.h"
 #include "setupdialog.h"
 #include "aboutdialog.h"
+#include "previewdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushBtn_add_code, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_code_click()));
     connect(ui->pushBtn_add_ref, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_ref_click()));
     connect(ui->pushBtn_submit, SIGNAL(clicked(bool)), this, SLOT(pushBtn_submit_click()));
+    connect(ui->pushBtn_preview, SIGNAL(clicked(bool)), this, SLOT(pushBtn_preview_click()));
     connect(ui->menu_new, SIGNAL(triggered(bool)), this, SLOT(menu_new_click()));
     connect(ui->menu_open, SIGNAL(triggered(bool)), this, SLOT(menu_open_click()));
     connect(ui->menu_setting, SIGNAL(triggered(bool)), this, SLOT(menu_setting_click()));
@@ -136,6 +138,12 @@ void MainWindow::pushBtn_submit_click()
 
     copy_images();
     QMessageBox::information(this, "info", "Complete");
+}
+
+void MainWindow::pushBtn_preview_click()
+{
+    PreviewDialog dlg(ui->textEdit_content->toPlainText());
+    dlg.exec();
 }
 
 void MainWindow::set_md_header(QString layout, QString title, QString category, QString date)
