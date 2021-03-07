@@ -26,22 +26,58 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="pushBtn_add_image">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>Add Image</string>
+             <string>Image</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>resources/image.png</normaloff>resources/image.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushBtn_add_code">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>Add Source Code</string>
+             <string>Code</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>resources/code.png</normaloff>resources/code.png</iconset>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushBtn_add_ref">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>Add Reference</string>
+             <string>Reference</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>resources/reference.png</normaloff>resources/reference.png</iconset>
             </property>
            </widget>
           </item>
@@ -74,6 +110,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QPushButton" name="pushBtn_submit">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Submit</string>
             </property>
@@ -93,8 +135,14 @@
      <x>0</x>
      <y>0</y>
      <width>795</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="menuMenu">
     <property name="title">
@@ -113,7 +161,7 @@
    <addaction name="menuMenu"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="menu_setting">
    <property name="text">
     <string>Setting</string>
