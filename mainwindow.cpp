@@ -35,7 +35,7 @@ void MainWindow::pushBtn_add_image_click()
     QString dst_path = "![" + src_path + "](/assets/images/" + md_only_file_name + "/" + img_name + ")";
 
     img_datas.push_back(make_tuple(img_name, src_path, dst_path));
-    ui->textEdit_content->append(dst_path + "\n");
+    ui->textEdit_content->insertPlainText(dst_path + "\n");
 }
 
 void MainWindow::pushBtn_add_code_click()
@@ -43,7 +43,7 @@ void MainWindow::pushBtn_add_code_click()
     QString begin_code = "{% highlight c linenos=table %}\n\n";
     QString end_code = "{% endhighlight %}\n";
 
-    ui->textEdit_content->append(begin_code + end_code);
+    ui->textEdit_content->insertPlainText(begin_code + end_code);
 }
 
 void MainWindow::pushBtn_add_ref_click()
@@ -59,7 +59,7 @@ void MainWindow::pushBtn_add_ref_click()
     QString display = "Ref: [" + ref_dlg.display + "][" + QString::number(ref_cnt) + "]\n\n";
     QString link = "[" + QString::number(ref_cnt) + "]: " + ref_dlg.link + "\n";
 
-    ui->textEdit_content->append(display + link);
+    ui->textEdit_content->insertPlainText(display + link);
 }
 
 void MainWindow::menu_new_click()
