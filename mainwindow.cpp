@@ -56,7 +56,7 @@ void MainWindow::pushBtn_add_ref_click()
         return;
 
     ref_cnt++;
-    QString display = "참고 자료: [" + ref_dlg.display + "][" + QString::number(ref_cnt) + "]\n\n";
+    QString display = "Ref: [" + ref_dlg.display + "][" + QString::number(ref_cnt) + "]\n\n";
     QString link = "[" + QString::number(ref_cnt) + "]: " + ref_dlg.link + "\n";
 
     ui->textEdit_content->append(display + link);
