@@ -11,6 +11,7 @@ RC_ICONS = icon.ico
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    aboutdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     refdialog.cpp \
@@ -18,12 +19,14 @@ SOURCES += \
     setupdialog.cpp
 
 HEADERS += \
+    aboutdialog.h \
     mainwindow.h \
     refdialog.h \
     settingdialog.h \
     setupdialog.h
 
 FORMS += \
+    aboutdialog.ui \
     mainwindow.ui \
     refdialog.ui \
     settingdialog.ui \

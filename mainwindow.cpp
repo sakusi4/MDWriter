@@ -3,6 +3,7 @@
 #include "settingdialog.h"
 #include "refdialog.h"
 #include "setupdialog.h"
+#include "aboutdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->menu_new, SIGNAL(triggered(bool)), this, SLOT(menu_new_click()));
     connect(ui->menu_open, SIGNAL(triggered(bool)), this, SLOT(menu_open_click()));
     connect(ui->menu_setting, SIGNAL(triggered(bool)), this, SLOT(menu_setting_click()));
+    connect(ui->menu_about, SIGNAL(triggered(bool)), this, SLOT(menu_about_click()));
 }
 
 void MainWindow::pushBtn_add_image_click()
@@ -107,6 +109,12 @@ void MainWindow::menu_open_click()
 void MainWindow::menu_setting_click()
 {
     SettingDialog dlg;
+    dlg.exec();
+}
+
+void MainWindow::menu_about_click()
+{
+    AboutDialog dlg;
     dlg.exec();
 }
 

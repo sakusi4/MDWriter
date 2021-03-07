@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MDWriter</string>
+   <string>MDWriter by sakusi4</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -98,7 +98,7 @@
    </property>
    <widget class="QMenu" name="menuMenu">
     <property name="title">
-     <string>Menu</string>
+     <string>File</string>
     </property>
     <addaction name="menu_new"/>
     <addaction name="menu_open"/>
@@ -108,7 +108,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout"/>
+    <addaction name="menu_about"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuHelp"/>
@@ -119,7 +119,7 @@
     <string>Setting</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="menu_about">
    <property name="text">
     <string>About</string>
    </property>

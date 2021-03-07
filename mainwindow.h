@@ -50,5 +50,6 @@ public slots:
     void menu_new_click();
     void menu_open_click();
     void menu_setting_click();
+    void menu_about_click();
 };
 #endif // MAINWINDOW_H
