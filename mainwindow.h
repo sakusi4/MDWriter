@@ -30,26 +30,25 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QString md_date;
-    QString md_title;
-    QString md_category;
     QString md_file_name;
     QString md_only_file_name;
-    QString content;
+    bool is_ready_submit = false;
 
     // file_name, src_path, command
     vector<tuple<QString, QString, QString>> img_datas;
 
-    void create_md_file();
+    bool create_md_file();
     void copy_images();
-    void set_md_header();
+    void set_md_header(QString layout, QString title, QString category, QString date);
+    void read_setting_file();
+
 public slots:    
     void pushBtn_submit_click();
-    void pushBtn_set_header_click();    
-    void pushBtn_clear_contents_click();
     void pushBtn_add_image_click();
     void pushBtn_add_code_click();
     void pushBtn_add_ref_click();
+    void menu_new_click();
+    void menu_open_click();
     void menu_setting_click();
 };
 #endif // MAINWINDOW_H

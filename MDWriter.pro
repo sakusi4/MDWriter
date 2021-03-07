@@ -14,17 +14,20 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     refdialog.cpp \
-    settingdialog.cpp
+    settingdialog.cpp \
+    setupdialog.cpp
 
 HEADERS += \
     mainwindow.h \
     refdialog.h \
-    settingdialog.h
+    settingdialog.h \
+    setupdialog.h
 
 FORMS += \
     mainwindow.ui \
     refdialog.ui \
-    settingdialog.ui
+    settingdialog.ui \
+    setupdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
