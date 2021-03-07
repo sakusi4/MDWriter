@@ -6,6 +6,7 @@ RefDialog::RefDialog(QWidget *parent) :
     ui(new Ui::RefDialog)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->size().width(), this->size().height());
 
     connect(ui->pushBtn_ok, SIGNAL(clicked(bool)), this, SLOT(pushBtn_ok_click()));
     connect(ui->pushBtn_cancel, SIGNAL(clicked(bool)), this, SLOT(pushBtn_cancel_click()));

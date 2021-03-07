@@ -8,6 +8,7 @@ SettingDialog::SettingDialog(QWidget *parent) :
     ui(new Ui::SettingDialog)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->size().width(), this->size().height());
 
     ui->lineEdit_root_path->setText(root_path);
 
