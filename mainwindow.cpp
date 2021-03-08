@@ -124,7 +124,12 @@ void MainWindow::menu_open_click()
 void MainWindow::menu_setting_click()
 {
     SettingDialog dlg;
-    dlg.exec();
+    int ret = dlg.exec();
+    if(ret != QDialog::Accepted)
+        return;
+
+    read_setting_file();
+    init();
 }
 
 void MainWindow::menu_about_click()
