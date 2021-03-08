@@ -16,6 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     read_setting_file();
     init();
 
+    QAction *toggle_list = new QAction(this);
+    QAction *quit = new QAction(this);
+    toggle_list->setShortcut(Qt::Key_Tab | Qt::CTRL);
+    quit->setShortcut(Qt::Key_Q | Qt::CTRL);
+
+    connect(toggle_list, SIGNAL(triggered(bool)), this, SLOT(pushBtn_toggle_list_click()));
+    connect(quit, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(ui->pushBtn_add_image, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_image_click()));
     connect(ui->pushBtn_add_code, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_code_click()));
     connect(ui->pushBtn_add_ref, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_ref_click()));
@@ -30,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->listWidget_posts, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(list_item_click(QListWidgetItem*)));
     connect(ui->listWidget_posts, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_context_menu(const QPoint&)));
     connect(ui->textEdit_content, SIGNAL(textChanged()), this, SLOT(textEdit_content_changed()));
+
+    this->addAction(toggle_list);
+    this->addAction(quit);
 }
 
 void MainWindow::init()
