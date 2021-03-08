@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Set Root Path</string>
+    <string>Set root path</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_root_path">
@@ -40,6 +40,9 @@
      <family>Arial</family>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="pushBtn_save">

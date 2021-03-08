@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>795</width>
+    <width>1054</width>
     <height>890</height>
    </rect>
   </property>
@@ -14,7 +14,58 @@
    <string>MDWriter by sakusi4</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item alignment="Qt::AlignLeft">
+       <widget class="QListWidget" name="listWidget_posts">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::DoubleClicked</set>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushBtn_refresh_posts">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Refresh</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
@@ -94,6 +145,22 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="pushBtn_toggle_list">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Hide List</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -130,7 +197,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Submit</string>
+             <string>Save to posts</string>
             </property>
            </widget>
           </item>
@@ -147,7 +214,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>795</width>
+     <width>1054</width>
      <height>23</height>
     </rect>
    </property>
@@ -157,42 +224,102 @@
      <pointsize>11</pointsize>
     </font>
    </property>
-   <widget class="QMenu" name="menuMenu">
+   <widget class="QMenu" name="menu_file">
+    <property name="geometry">
+     <rect>
+      <x>339</x>
+      <y>102</y>
+      <width>161</width>
+      <height>119</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
-     <string>File</string>
+     <string>File </string>
     </property>
     <addaction name="menu_new"/>
     <addaction name="menu_open"/>
     <addaction name="menu_setting"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="menu_about"/>
    </widget>
-   <addaction name="menuMenu"/>
+   <addaction name="menu_file"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="menu_setting">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/open_setting.png</normaloff>resources/open_setting.png</iconset>
+   </property>
    <property name="text">
-    <string>Setting</string>
+    <string>Options</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </action>
   <action name="menu_about">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/about.png</normaloff>resources/about.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
   </action>
   <action name="menu_open">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/open_file.png</normaloff>resources/open_file.png</iconset>
+   </property>
    <property name="text">
-    <string>Open file</string>
+    <string>Open File</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </action>
   <action name="menu_new">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/new_file.png</normaloff>resources/new_file.png</iconset>
+   </property>
    <property name="text">
-    <string>New file</string>
+    <string>New File</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </action>
  </widget>

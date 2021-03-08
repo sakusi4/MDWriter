@@ -5,6 +5,7 @@
 #include "setupdialog.h"
 #include "aboutdialog.h"
 #include "previewdialog.h"
+#include <fstream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,17 +14,33 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     read_setting_file();
+    init();
 
     connect(ui->pushBtn_add_image, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_image_click()));
     connect(ui->pushBtn_add_code, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_code_click()));
     connect(ui->pushBtn_add_ref, SIGNAL(clicked(bool)), this, SLOT(pushBtn_add_ref_click()));
     connect(ui->pushBtn_submit, SIGNAL(clicked(bool)), this, SLOT(pushBtn_submit_click()));
     connect(ui->pushBtn_preview, SIGNAL(clicked(bool)), this, SLOT(pushBtn_preview_click()));
+    connect(ui->pushBtn_toggle_list, SIGNAL(clicked(bool)), this, SLOT(pushBtn_toggle_list_click()));
+    connect(ui->pushBtn_refresh_posts, SIGNAL(clicked(bool)), this, SLOT(pushBtn_refresh_posts_click()));
     connect(ui->menu_new, SIGNAL(triggered(bool)), this, SLOT(menu_new_click()));
     connect(ui->menu_open, SIGNAL(triggered(bool)), this, SLOT(menu_open_click()));
     connect(ui->menu_setting, SIGNAL(triggered(bool)), this, SLOT(menu_setting_click()));
     connect(ui->menu_about, SIGNAL(triggered(bool)), this, SLOT(menu_about_click()));
+    connect(ui->listWidget_posts, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(list_item_click(QListWidgetItem*)));
+    connect(ui->listWidget_posts, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(show_context_menu(const QPoint&)));
+    connect(ui->textEdit_content, SIGNAL(textChanged()), this, SLOT(textEdit_content_changed()));
 }
+
+void MainWindow::init()
+{
+    ui->textEdit_content->clear();
+    md_file_name = "";
+    md_only_file_name = "";
+    is_changed = false;
+    read_post_files();
+}
+
 
 void MainWindow::pushBtn_add_image_click()
 {
@@ -64,8 +81,25 @@ void MainWindow::pushBtn_add_ref_click()
     ui->textEdit_content->insertPlainText(display + link);
 }
 
+void MainWindow::pushBtn_toggle_list_click()
+{
+    QString str[2] = {"Show List", "Hide List"};
+    bool visible = ui->listWidget_posts->isVisible();
+
+    ui->listWidget_posts->setVisible(visible ^ true);
+    ui->pushBtn_refresh_posts->setVisible(visible ^ true);
+    ui->pushBtn_toggle_list->setText(str[visible ^ true]);
+}
+
+void MainWindow::pushBtn_refresh_posts_click()
+{
+    read_post_files();
+}
+
 void MainWindow::menu_new_click()
 {
+    save_md_file();
+
     SetupDialog dlg;
     int ret = dlg.exec();
     if(ret != QDialog::Accepted)
@@ -73,39 +107,18 @@ void MainWindow::menu_new_click()
 
     md_only_file_name = dlg.file_name;
     md_file_name = md_only_file_name + ".md";
-    set_md_header(dlg.layout, dlg.title, dlg.category, dlg.date);
-
-    is_ready_submit = true;
+    set_md_header(dlg.layout, dlg.title, dlg.category, dlg.date);   
 }
 
 void MainWindow::menu_open_click()
 {
-    if(is_ready_submit){
-        auto ret = QMessageBox::information(this, "info", "This file will be not saved, OK?",
-                                            QMessageBox::Yes | QMessageBox::No);
-        if(ret != QMessageBox::Yes)
-            return;
-    }
+    save_md_file();
 
     QString open_path = QFileDialog::getOpenFileName(this, "Open File", root_path + "/_posts", "Files (*.md)");
     if(open_path == "")
         return;
 
-    QFile file(open_path);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QMessageBox::information(this, "info", "file open fail");
-        return;
-    }
-
-    QFileInfo file_info(open_path);
-    md_file_name = file_info.fileName();
-    md_only_file_name = file_info.baseName();
-
-    QTextStream stream(&file);
-    QString content = stream.readAll();
-    ui->textEdit_content->setText(content);
-
-    is_ready_submit = true;
+    load_md_file(open_path);
 }
 
 void MainWindow::menu_setting_click()
@@ -122,22 +135,7 @@ void MainWindow::menu_about_click()
 
 void MainWindow::pushBtn_submit_click()
 {    
-    if(!is_ready_submit){
-        QMessageBox::information(this, "info", "No Documents");
-        return;
-    }
-
-    auto ret = QMessageBox::information(this, "info", "Really?", QMessageBox::Yes | QMessageBox::No);
-    if(ret != QMessageBox::Yes)
-        return;
-
-    if(!create_md_file()){
-        QMessageBox::information(this, "info", "Fail");
-        return;
-    }
-
-    copy_images();
-    QMessageBox::information(this, "info", "Complete");
+    save_md_file();
 }
 
 void MainWindow::pushBtn_preview_click()
@@ -145,6 +143,18 @@ void MainWindow::pushBtn_preview_click()
     PreviewDialog dlg(ui->textEdit_content->toPlainText());
     dlg.exec();
 }
+
+void MainWindow::list_item_click(QListWidgetItem *item)
+{    
+    if(item == nullptr)
+        return;
+
+    QString name = item->text();
+
+    save_md_file();
+    load_md_file(root_path + "/_posts/" + name);
+}
+
 
 void MainWindow::set_md_header(QString layout, QString title, QString category, QString date)
 {
@@ -158,6 +168,46 @@ void MainWindow::set_md_header(QString layout, QString title, QString category, 
     ui->textEdit_content->setText(header);
 }
 
+void MainWindow::load_md_file(const QString &file_name)
+{
+    QFileInfo file_info(file_name);
+    md_file_name = file_info.fileName();
+    md_only_file_name = file_info.baseName();
+
+    QFile file(file_name);
+    if(!file.open(QFile::ReadOnly | QFile::Text)){
+        QMessageBox::information(this, "info", "load_md_file: fail");
+        return;
+    }
+
+    QTextStream stream(&file);
+    QString content = stream.readAll();
+    ui->textEdit_content->setText(content);
+
+    file.close();
+
+    is_changed = false;
+}
+
+void MainWindow::save_md_file()
+{
+    if(!is_changed){
+        return;
+    }else{
+        auto ret = QMessageBox::information(this, "info", "Do you want to save this file?", QMessageBox::Yes | QMessageBox::No);
+        if(ret != QMessageBox::Yes)
+            return;
+    }
+
+    if(!create_md_file()){
+        QMessageBox::information(this, "info", "save_md_file: fail");
+        return;
+    }
+
+    copy_images();
+    read_post_files();
+}
+
 bool MainWindow::create_md_file()
 {
     QFile md_file;
@@ -166,15 +216,8 @@ bool MainWindow::create_md_file()
     QString file_path = posts_path + md_file_name;
 
     md_file.setFileName(file_path);
-    if(QFile::exists(file_path)){
-        auto ret = QMessageBox::information(this, "info", "Do you want to overwrite?", QMessageBox::Yes | QMessageBox::No);
-        if(ret != QMessageBox::Yes){
-            return false;
-        }
-    }
-
     if(!md_file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
-        qDebug("File open fail");
+        QMessageBox::information(this, "info", "create_md_file: fail");
         return false;
     }
 
@@ -207,27 +250,73 @@ void MainWindow::read_setting_file()
     QFile file(setting_path);
     if(!QFile::exists(setting_path)){
         if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
-            qDebug("File open fail");
+            QMessageBox::information(this, "info", "read_setting_file: fail");
             return;
         }
         file.close();
     }
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug("File open fail");
+        QMessageBox::information(this, "info", "read_setting_file: fail");
         return;
     }
 
     QTextStream stream(&file);
     root_path = stream.readLine();
 
-    if(root_path == "")
+    if(root_path == ""){
         QMessageBox::information(this, "info", "Please set root path in setting form");
+        return;
+    }
+
+    file.close();    
 }
+
+void MainWindow::read_post_files()
+{
+    ui->listWidget_posts->clear();
+
+    QString posts_path = root_path + "/_posts";
+    QDir dir(posts_path);
+    QStringList list = dir.entryList(QStringList() << "*.md", QDir::Files);
+
+    for(const QString &name : list){
+        QListWidgetItem *item = new QListWidgetItem();
+        QIcon *icon = new QIcon("./resources/list_item.png");
+        item->setText(name);
+        item->setIcon(*icon);
+        ui->listWidget_posts->insertItem(ui->listWidget_posts->count(), item);
+    }
+}
+
+void MainWindow::show_context_menu(const QPoint &pos)
+{
+    QPoint global_pos = ui->listWidget_posts->mapToGlobal(pos);
+    QListWidgetItem *item =  ui->listWidget_posts->itemAt(pos);
+
+    if(item == nullptr)
+        return;
+
+    QMenu menu(ui->listWidget_posts);
+    QAction *action = menu.addAction("Delete");
+    QAction *ret = menu.exec(global_pos);
+    if(ret == action){        
+        QString file_name = root_path + "/_posts/" + item->text();
+        QFile file(file_name);
+        if(file.remove()){
+            init();
+            QMessageBox::information(this, "info", "Delete Successed");
+        }
+    }
+}
+
+void MainWindow::textEdit_content_changed()
+{
+    is_changed = true;
+}
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
